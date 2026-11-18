@@ -16,7 +16,7 @@ describe("renderPasswordResetEmail", () => {
       "https://shelfmarket.tylko.dev",
     );
 
-    expect(email.subject).toBe("Reset your ShelfMarket password");
+    expect(email.subject).toBe("Reset your Outlet password");
     expect(email.html).toContain("https://shelfmarket.tylko.dev/login?reset_token=reset-token-456");
     expect(email.text).toContain("https://shelfmarket.tylko.dev/login?reset_token=reset-token-456");
     expect(email.html).toContain("Reset your password");

@@ -24,14 +24,14 @@ export function renderEmailVerification(
   notification: CustomerEmailTokenCreatedNotification,
   storeUrl: string,
 ): RenderedEmail {
-  const subject = "Your ShelfMarket confirmation code";
+  const subject = "Your Outlet confirmation code";
 
   const verifyUrl = `${normalizeStoreUrl(storeUrl)}/login?verify_token=${encodeURIComponent(notification.value)}`;
 
   const bodyHtml = [
     paragraph("Hi,"),
     paragraph(
-      "Thanks for creating a ShelfMarket account. Confirm your email address using the button below, or copy the code into the registration screen:",
+      "Thanks for creating an Outlet account. Confirm your email address using the button below, or copy the code into the registration screen:",
     ),
     codeBox(notification.value),
     ctaButton("Confirm email", verifyUrl),
@@ -52,6 +52,6 @@ export function renderEmailVerification(
       },
       storeUrl,
     ),
-    text: `Confirm your email\n\nHi,\n\nThanks for creating a ShelfMarket account. Confirm your email address by opening the link below, or enter this code on the registration screen:\n\n${notification.value}\n\n${verifyUrl}\n\nThe code expires in 30 minutes and only the most recent code works. If you didn't create an account, you can safely ignore this email.`,
+    text: `Confirm your email\n\nHi,\n\nThanks for creating an Outlet account. Confirm your email address by opening the link below, or enter this code on the registration screen:\n\n${notification.value}\n\n${verifyUrl}\n\nThe code expires in 30 minutes and only the most recent code works. If you didn't create an account, you can safely ignore this email.`,
   };
 }

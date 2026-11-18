@@ -42,7 +42,8 @@ describe("handleQueue", () => {
       expect.objectContaining({
         to: "customer@example.com",
         from: "orders@example.com",
-        subject: "Order ORD-1 confirmed",
+        // No locale or currency on the order: the storefront default, Polish.
+        subject: "Zamówienie ORD-1 potwierdzone",
       }),
     ]);
     await expect(env.EMAIL_DEDUPE.get("sent:message-id")).resolves.not.toBeNull();
@@ -152,7 +153,7 @@ describe("handleQueue", () => {
     expect(message.acked).toBe(true);
     expect(env.sentEmails).toHaveLength(1);
     expect(env.sentEmails[0]?.to).toBe("newuser@example.com");
-    expect(env.sentEmails[0]?.subject).toBe("Your ShelfMarket confirmation code");
+    expect(env.sentEmails[0]?.subject).toBe("Your Outlet confirmation code");
     expect(env.sentEmails[0]?.html).toContain("verify-token-123");
     await expect(env.EMAIL_DEDUPE.get("sent:email-token-id")).resolves.not.toBeNull();
     await expect(getStats(env)).resolves.toMatchObject({
@@ -178,7 +179,7 @@ describe("handleQueue", () => {
     expect(message.acked).toBe(true);
     expect(env.sentEmails).toHaveLength(1);
     expect(env.sentEmails[0]?.to).toBe("user@example.com");
-    expect(env.sentEmails[0]?.subject).toBe("Reset your ShelfMarket password");
+    expect(env.sentEmails[0]?.subject).toBe("Reset your Outlet password");
     expect(env.sentEmails[0]?.html).toContain("login?reset_token=reset-token-456");
     await expect(env.EMAIL_DEDUPE.get("sent:password-token-id")).resolves.not.toBeNull();
     await expect(getStats(env)).resolves.toMatchObject({

@@ -16,7 +16,7 @@ describe("renderEmailVerification", () => {
       "https://shelfmarket.tylko.dev",
     );
 
-    expect(email.subject).toBe("Your ShelfMarket confirmation code");
+    expect(email.subject).toBe("Your Outlet confirmation code");
     expect(email.html).toContain("verify-token-123");
     expect(email.text).toContain("verify-token-123");
     expect(email.html).toContain("login?verify_token=verify-token-123");

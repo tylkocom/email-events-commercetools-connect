@@ -1,5 +1,5 @@
 /**
- * Shared ShelfMarket email layout.
+ * Shared Outlet email layout.
  *
  * Mirrors the storefront design tokens (uno.config.ts): Helvetica stack,
  * off-white page on a bordered off-white panel, near-black ink, square
@@ -7,6 +7,8 @@
  * storefront's oklch palette. Layout is table-based with inline styles for
  * email-client compatibility.
  */
+
+export type EmailLocale = "pl" | "en";
 
 export type RenderedEmail = {
   subject: string;
@@ -69,8 +71,12 @@ export function ctaButton(label: string, url: string): string {
 }
 
 /** Small-print fallback for clients that block button links. */
-export function linkFallback(url: string): string {
-  return `<p style="margin: 0 0 16px; font-family: ${FONT_STACK}; font-size: 12px; line-height: 18px; color: ${COLOR.subtle}; word-break: break-all;">Or copy and paste this link into your browser:<br><a href="${escapeHtml(url)}" style="color: ${COLOR.ink};">${escapeHtml(url)}</a></p>`;
+export function linkFallback(url: string, locale: EmailLocale = "en"): string {
+  const hint =
+    locale === "pl"
+      ? "Lub skopiuj i wklej ten link do przeglądarki:"
+      : "Or copy and paste this link into your browser:";
+  return `<p style="margin: 0 0 16px; font-family: ${FONT_STACK}; font-size: 12px; line-height: 18px; color: ${COLOR.subtle}; word-break: break-all;">${hint}<br><a href="${escapeHtml(url)}" style="color: ${COLOR.ink};">${escapeHtml(url)}</a></p>`;
 }
 
 /** Prominent copy-paste box for one-time codes. */
@@ -91,6 +97,8 @@ export interface ShelfMarketEmailContent {
   bodyHtml: string;
   /** Plain-text note for the footer, e.g. who the email was sent to. */
   footerNote: string;
+  /** Language of the layout's own chrome (footer). Defaults to English. */
+  locale?: EmailLocale;
 }
 
 export function renderShelfMarketHtml(
@@ -99,8 +107,14 @@ export function renderShelfMarketHtml(
 ): string {
   const storeUrl = normalizeStoreUrl(rawStoreUrl);
   const year = new Date().getFullYear();
+  const locale = content.locale ?? "en";
+  const copyright =
+    locale === "pl"
+      ? `Copyright &copy; ${year} Tylko. Wszelkie prawa zastrzeżone.`
+      : `Copyright &copy; ${year} Tylko. All rights reserved.`;
+  const legalNotice = locale === "pl" ? "Informacje prawne" : "Legal Notice";
   return `<!DOCTYPE html>
-<html>
+<html lang="${locale}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -112,7 +126,7 @@ export function renderShelfMarketHtml(
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width: 560px;">
             <tr>
               <td style="padding: 0 4px 16px;">
-                <a href="${escapeHtml(storeUrl)}" style="font-family: ${FONT_STACK}; font-size: 20px; font-weight: 600; letter-spacing: -0.04em; color: ${COLOR.ink}; text-decoration: none;">ShelfMarket</a>
+                <a href="${escapeHtml(storeUrl)}" style="font-family: ${FONT_STACK}; font-size: 20px; font-weight: 600; letter-spacing: -0.04em; color: ${COLOR.ink}; text-decoration: none;">Outlet</a>
               </td>
             </tr>
             <tr>
@@ -125,7 +139,7 @@ export function renderShelfMarketHtml(
             <tr>
               <td style="padding: 20px 4px; font-family: ${FONT_STACK}; font-size: 12px; line-height: 18px; color: ${COLOR.subtle};">
                 <p style="margin: 0 0 6px;">${escapeHtml(content.footerNote)}</p>
-                <p style="margin: 0;">Copyright &copy; ${year} Tylko. All rights reserved. &middot; <a href="${escapeHtml(storeUrl)}/legal-notice" style="color: ${COLOR.subtle};">Legal Notice</a></p>
+                <p style="margin: 0;">${copyright} &middot; <a href="${escapeHtml(storeUrl)}/legal-notice" style="color: ${COLOR.subtle};">${legalNotice}</a></p>
               </td>
             </tr>
           </table>

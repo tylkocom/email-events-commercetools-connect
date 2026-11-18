@@ -26,12 +26,12 @@ export function renderPasswordResetEmail(
   // The storefront login page picks the token up from this query parameter
   // and shows the "choose a new password" step.
   const resetUrl = `${normalizeStoreUrl(storeUrl)}/login?reset_token=${encodeURIComponent(notification.value)}`;
-  const subject = "Reset your ShelfMarket password";
+  const subject = "Reset your Outlet password";
 
   const bodyHtml = [
     paragraph("Hi,"),
     paragraph(
-      "We received a request to reset the password for your ShelfMarket account. Choose a new password using the button below:",
+      "We received a request to reset the password for your Outlet account. Choose a new password using the button below:",
     ),
     ctaButton("Reset password", resetUrl),
     linkFallback(resetUrl),
@@ -51,6 +51,6 @@ export function renderPasswordResetEmail(
       },
       storeUrl,
     ),
-    text: `Reset your password\n\nHi,\n\nWe received a request to reset the password for your ShelfMarket account. Open this link to choose a new password:\n\n${resetUrl}\n\nThe link stays valid for 30 minutes and only the most recent link works. If you didn't request a password reset, you can safely ignore this email.`,
+    text: `Reset your password\n\nHi,\n\nWe received a request to reset the password for your Outlet account. Open this link to choose a new password:\n\n${resetUrl}\n\nThe link stays valid for 30 minutes and only the most recent link works. If you didn't request a password reset, you can safely ignore this email.`,
   };
 }
