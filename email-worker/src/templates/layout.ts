@@ -1,5 +1,5 @@
 /**
- * Shared ShelfMarket email layout.
+ * Shared Outlet (ShelfMarket storefront) email layout.
  *
  * Mirrors the storefront design tokens (uno.config.ts): Helvetica stack,
  * off-white page on a bordered off-white panel, near-black ink, square
@@ -69,8 +69,11 @@ export function ctaButton(label: string, url: string): string {
 }
 
 /** Small-print fallback for clients that block button links. */
-export function linkFallback(url: string): string {
-  return `<p style="margin: 0 0 16px; font-family: ${FONT_STACK}; font-size: 12px; line-height: 18px; color: ${COLOR.subtle}; word-break: break-all;">Or copy and paste this link into your browser:<br><a href="${escapeHtml(url)}" style="color: ${COLOR.ink};">${escapeHtml(url)}</a></p>`;
+export function linkFallback(
+  url: string,
+  label: string = "Or copy and paste this link into your browser:",
+): string {
+  return `<p style="margin: 0 0 16px; font-family: ${FONT_STACK}; font-size: 12px; line-height: 18px; color: ${COLOR.subtle}; word-break: break-all;">${escapeHtml(label)}<br><a href="${escapeHtml(url)}" style="color: ${COLOR.ink};">${escapeHtml(url)}</a></p>`;
 }
 
 /** Prominent copy-paste box for one-time codes. */
@@ -112,7 +115,7 @@ export function renderShelfMarketHtml(
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width: 560px;">
             <tr>
               <td style="padding: 0 4px 16px;">
-                <a href="${escapeHtml(storeUrl)}" style="font-family: ${FONT_STACK}; font-size: 20px; font-weight: 600; letter-spacing: -0.04em; color: ${COLOR.ink}; text-decoration: none;">ShelfMarket</a>
+                <a href="${escapeHtml(storeUrl)}" style="font-family: ${FONT_STACK}; font-size: 20px; font-weight: 600; letter-spacing: -0.04em; color: ${COLOR.ink}; text-decoration: none;">Outlet</a>
               </td>
             </tr>
             <tr>
@@ -125,7 +128,7 @@ export function renderShelfMarketHtml(
             <tr>
               <td style="padding: 20px 4px; font-family: ${FONT_STACK}; font-size: 12px; line-height: 18px; color: ${COLOR.subtle};">
                 <p style="margin: 0 0 6px;">${escapeHtml(content.footerNote)}</p>
-                <p style="margin: 0;">Copyright &copy; ${year} Tylko. All rights reserved. &middot; <a href="${escapeHtml(storeUrl)}/legal-notice" style="color: ${COLOR.subtle};">Legal Notice</a></p>
+                <p style="margin: 0;">Copyright &copy; ${year} Tylko. All rights reserved.</p>
               </td>
             </tr>
           </table>
