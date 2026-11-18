@@ -15,10 +15,15 @@
     "@cloudflare/vitest-pool-workers": "^0.16.20",
     "@cloudflare/workers-types": "^4.20260609.0",
     "typescript": "^5.7.2",
-    "vitest": "^4.1.8",
+    "vitest": "^4.1.12",
     "wrangler": "^4.50.0"
   },
   "engines": {
     "node": ">=20"
+  },
+  "overrides": {
+    "undici": "^7.30.2",
+    "sharp": "^0.35.5",
+    "vite": "^6.4.4"
   }
 }
