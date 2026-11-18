@@ -25,6 +25,8 @@ const COLOR = {
   border: "#e6e3e0",
   /** beige-100: highlighted surfaces (code box) */
   surface: "#f2efee",
+  /** Tylko brand orange: logo wordmark only */
+  brand: "#FF3C00",
   /** offblack-900: ink, solid buttons */
   ink: "#1a1818",
   /** offblack-700: body copy */
@@ -115,7 +117,7 @@ export function renderShelfMarketHtml(
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width: 560px;">
             <tr>
               <td style="padding: 0 4px 16px;">
-                <a href="${escapeHtml(storeUrl)}" style="font-family: ${FONT_STACK}; font-size: 20px; font-weight: 600; letter-spacing: -0.04em; color: ${COLOR.ink}; text-decoration: none;">Outlet</a>
+                <a href="${escapeHtml(storeUrl)}" style="font-family: ${FONT_STACK}; font-size: 20px; font-weight: 600; letter-spacing: -0.04em; color: ${COLOR.ink}; text-decoration: none;"><span style="color: ${COLOR.brand}; margin-right: 8px;">tylko</span>Outlet</a>
               </td>
             </tr>
             <tr>

@@ -94,7 +94,7 @@ describe("renderOrderCreatedEmail", () => {
       storeUrl,
     );
 
-    expect(email.html).toContain(">Outlet<");
+    expect(email.html).toMatch(/color: #FF3C00;[^>]*>tylko<\/span>\s*Outlet/);
     expect(email.html).not.toContain("ShelfMarket");
     expect(email.html).not.toContain("legal-notice");
     for (const body of [email.html, email.text]) {
