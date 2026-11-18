@@ -31,7 +31,7 @@ import { fileURLToPath } from "node:url";
 // ─── Configuration ───────────────────────────────────────────────────────────
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const CONNECTOR_KEY = "email-events-proxy";
+const CONNECTOR_KEY = "tylko-email-events-proxy";
 const CONNECTOR_NAME = "Email Events Proxy";
 const CREATOR_EMAIL = "emails@tylko.dev";
 const INTEGRATION_TYPES = "email";
