@@ -103,6 +103,23 @@ describe("renderOrderCreatedEmail", () => {
     }
   });
 
+  it("has no eyebrow label and is signed by the Tylko Outlet team", () => {
+    const email = renderOrderCreatedEmail(
+      {
+        notificationType: "Message",
+        id: "message-id",
+        type: "OrderCreated",
+        order: { id: "order-id", customerEmail: "customer@example.com", orderNumber: "ORD-1" },
+      },
+      storeUrl,
+    );
+
+    expect(email.html).not.toMatch(/zamówienia<\/p>/i);
+    expect(email.html).not.toContain("text-transform: uppercase");
+    expect(email.html).toContain("Pozdrawiamy,<br>Zespół Tylko Outlet");
+    expect(email.text).toMatch(/Pozdrawiamy,\nZespół Tylko Outlet$/);
+  });
+
   it("escapes order id in link", () => {
     const email = renderOrderCreatedEmail(
       {

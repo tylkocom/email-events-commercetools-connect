@@ -39,19 +39,19 @@ export function renderOrderCreatedEmail(
     ),
     ctaButton("Zobacz szczegóły zamówienia", orderDetailsUrl),
     linkFallback(orderDetailsUrl, "Lub skopiuj ten link do przeglądarki:"),
+    paragraph("Pozdrawiamy,<br>Zespół Tylko Outlet"),
   ].join("\n");
 
   return {
     subject,
     html: renderShelfMarketHtml(
       {
-        eyebrow: "Zamówienia",
         title: "Dziękujemy za zamówienie.",
         bodyHtml,
         footerNote: `Ta wiadomość została wysłana na adres ${notification.order.customerEmail}.`,
       },
       storeUrl,
     ),
-    text: `Dziękujemy za zamówienie\n\nDzień dobry,\n\nOtrzymaliśmy Twoje zamówienie ${orderNumber}.\n\nSzczegóły zamówienia:\n${orderDetailsUrl}`,
+    text: `Dziękujemy za zamówienie\n\nDzień dobry,\n\nOtrzymaliśmy Twoje zamówienie ${orderNumber}.\n\nSzczegóły zamówienia:\n${orderDetailsUrl}\n\nPozdrawiamy,\nZespół Tylko Outlet`,
   };
 }
