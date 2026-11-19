@@ -1,5 +1,5 @@
 /**
- * Shared ShelfMarket email layout.
+ * Shared Outlet (ShelfMarket storefront) email layout.
  *
  * Mirrors the storefront design tokens (uno.config.ts): Helvetica stack,
  * off-white page on a bordered off-white panel, near-black ink, square
@@ -25,6 +25,8 @@ const COLOR = {
   border: "#e6e3e0",
   /** beige-100: highlighted surfaces (code box) */
   surface: "#f2efee",
+  /** Tylko brand orange: logo wordmark only */
+  brand: "#FF3C00",
   /** offblack-900: ink, solid buttons */
   ink: "#1a1818",
   /** offblack-700: body copy */
@@ -69,8 +71,11 @@ export function ctaButton(label: string, url: string): string {
 }
 
 /** Small-print fallback for clients that block button links. */
-export function linkFallback(url: string): string {
-  return `<p style="margin: 0 0 16px; font-family: ${FONT_STACK}; font-size: 12px; line-height: 18px; color: ${COLOR.subtle}; word-break: break-all;">Or copy and paste this link into your browser:<br><a href="${escapeHtml(url)}" style="color: ${COLOR.ink};">${escapeHtml(url)}</a></p>`;
+export function linkFallback(
+  url: string,
+  label: string = "Or copy and paste this link into your browser:",
+): string {
+  return `<p style="margin: 0 0 16px; font-family: ${FONT_STACK}; font-size: 12px; line-height: 18px; color: ${COLOR.subtle}; word-break: break-all;">${escapeHtml(label)}<br><a href="${escapeHtml(url)}" style="color: ${COLOR.ink};">${escapeHtml(url)}</a></p>`;
 }
 
 /** Prominent copy-paste box for one-time codes. */
@@ -84,8 +89,8 @@ export function codeBox(code: string): string {
 }
 
 export interface ShelfMarketEmailContent {
-  /** Uppercase context label, e.g. "Account" or "Orders". */
-  eyebrow: string;
+  /** Optional uppercase context label, e.g. "Account". Omitted when it adds nothing. */
+  eyebrow?: string;
   title: string;
   /** Pre-escaped HTML blocks (paragraph, ctaButton, codeBox, ...). */
   bodyHtml: string;
@@ -99,6 +104,9 @@ export function renderShelfMarketHtml(
 ): string {
   const storeUrl = normalizeStoreUrl(rawStoreUrl);
   const year = new Date().getFullYear();
+  const eyebrowHtml = content.eyebrow
+    ? `<p style="margin: 0 0 14px; font-family: ${FONT_STACK}; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: ${COLOR.muted};">${escapeHtml(content.eyebrow)}</p>`
+    : "";
   return `<!DOCTYPE html>
 <html>
   <head>
@@ -112,12 +120,12 @@ export function renderShelfMarketHtml(
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width: 560px;">
             <tr>
               <td style="padding: 0 4px 16px;">
-                <a href="${escapeHtml(storeUrl)}" style="font-family: ${FONT_STACK}; font-size: 20px; font-weight: 600; letter-spacing: -0.04em; color: ${COLOR.ink}; text-decoration: none;">ShelfMarket</a>
+                <a href="${escapeHtml(storeUrl)}" style="font-family: ${FONT_STACK}; font-size: 20px; font-weight: 600; letter-spacing: -0.04em; color: ${COLOR.ink}; text-decoration: none;"><span style="color: ${COLOR.brand}; margin-right: 8px;">tylko</span>Outlet</a>
               </td>
             </tr>
             <tr>
               <td style="background: ${COLOR.panel}; border: 1px solid ${COLOR.border}; padding: 40px;">
-                <p style="margin: 0 0 14px; font-family: ${FONT_STACK}; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: ${COLOR.muted};">${escapeHtml(content.eyebrow)}</p>
+                ${eyebrowHtml}
                 <h1 style="margin: 0 0 20px; font-family: ${FONT_STACK}; font-size: 28px; line-height: 38px; font-weight: 600; letter-spacing: -0.01em; color: ${COLOR.ink};">${escapeHtml(content.title)}</h1>
                 ${content.bodyHtml}
               </td>
@@ -125,7 +133,7 @@ export function renderShelfMarketHtml(
             <tr>
               <td style="padding: 20px 4px; font-family: ${FONT_STACK}; font-size: 12px; line-height: 18px; color: ${COLOR.subtle};">
                 <p style="margin: 0 0 6px;">${escapeHtml(content.footerNote)}</p>
-                <p style="margin: 0;">Copyright &copy; ${year} Tylko. All rights reserved. &middot; <a href="${escapeHtml(storeUrl)}/legal-notice" style="color: ${COLOR.subtle};">Legal Notice</a></p>
+                <p style="margin: 0;">Copyright &copy; ${year} Tylko. All rights reserved.</p>
               </td>
             </tr>
           </table>

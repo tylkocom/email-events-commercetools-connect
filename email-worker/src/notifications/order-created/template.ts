@@ -28,31 +28,30 @@ export function renderOrderCreatedEmail(
   orderAccessKey?: string,
 ): RenderedEmail {
   const orderNumber = notification.order.orderNumber || notification.order.id;
-  const subject = `Order ${orderNumber} confirmed`;
+  const subject = `Zamówienie ${orderNumber} zostało potwierdzone`;
   const keySuffix = orderAccessKey ? `?key=${encodeURIComponent(orderAccessKey)}` : "";
   const orderDetailsUrl = `${normalizeStoreUrl(storeUrl)}/orders/${encodeURIComponent(notification.order.id)}${keySuffix}`;
 
   const bodyHtml = [
-    paragraph("Hi,"),
+    paragraph("Dzień dobry,"),
     paragraph(
-      `We have received your order <strong style="color: #1a1818;">${escapeHtml(orderNumber)}</strong>. You can view its details and track its status below:`,
+      `Otrzymaliśmy Twoje zamówienie <strong style="color: #1a1818;">${escapeHtml(orderNumber)}</strong>. Szczegóły i status zamówienia sprawdzisz poniżej:`,
     ),
-    ctaButton("View order details", orderDetailsUrl),
-    linkFallback(orderDetailsUrl),
-    paragraph("We will send you another email when your order is ready for delivery."),
+    ctaButton("Zobacz szczegóły zamówienia", orderDetailsUrl),
+    linkFallback(orderDetailsUrl, "Lub skopiuj ten link do przeglądarki:"),
+    paragraph("Pozdrawiamy,<br>Zespół Tylko Outlet"),
   ].join("\n");
 
   return {
     subject,
     html: renderShelfMarketHtml(
       {
-        eyebrow: "Orders",
-        title: "Thank you for your order.",
+        title: "Dziękujemy za zamówienie.",
         bodyHtml,
-        footerNote: `This email was sent to ${notification.order.customerEmail}.`,
+        footerNote: `Ta wiadomość została wysłana na adres ${notification.order.customerEmail}.`,
       },
       storeUrl,
     ),
-    text: `Thank you for your order\n\nHi,\n\nWe have received your order ${orderNumber}.\n\nView your order details:\n${orderDetailsUrl}\n\nWe will send you another email when your order is ready for delivery.`,
+    text: `Dziękujemy za zamówienie\n\nDzień dobry,\n\nOtrzymaliśmy Twoje zamówienie ${orderNumber}.\n\nSzczegóły zamówienia:\n${orderDetailsUrl}\n\nPozdrawiamy,\nZespół Tylko Outlet`,
   };
 }

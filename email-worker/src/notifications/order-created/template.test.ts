@@ -15,7 +15,9 @@ describe("renderOrderCreatedEmail", () => {
       storeUrl,
     );
 
-    expect(email.subject).toBe("Order ORD-1 confirmed");
+    expect(email.subject).toBe("Zamówienie ORD-1 zostało potwierdzone");
+    expect(email.html).toContain("Dziękujemy za zamówienie.");
+    expect(email.html).toContain("Zobacz szczegóły zamówienia");
     expect(email.html).toContain("ORD-1");
     expect(email.text).toContain("ORD-1");
   });
@@ -81,6 +83,43 @@ describe("renderOrderCreatedEmail", () => {
     expect(email.html).toContain("&lt;ORD&gt;");
   });
 
+  it("uses the Outlet brand, has no English copy, legal notice or delivery follow-up promise", () => {
+    const email = renderOrderCreatedEmail(
+      {
+        notificationType: "Message",
+        id: "message-id",
+        type: "OrderCreated",
+        order: { id: "order-id", customerEmail: "customer@example.com", orderNumber: "ORD-1" },
+      },
+      storeUrl,
+    );
+
+    expect(email.html).toMatch(/color: #FF3C00;[^>]*>tylko<\/span>\s*Outlet/);
+    expect(email.html).not.toContain("ShelfMarket");
+    expect(email.html).not.toContain("legal-notice");
+    for (const body of [email.html, email.text]) {
+      expect(body).not.toMatch(/another email|ready for delivery|Thank you|Hi,|copy and paste/i);
+      expect(body).not.toMatch(/gotowe|kolejn/i);
+    }
+  });
+
+  it("has no eyebrow label and is signed by the Tylko Outlet team", () => {
+    const email = renderOrderCreatedEmail(
+      {
+        notificationType: "Message",
+        id: "message-id",
+        type: "OrderCreated",
+        order: { id: "order-id", customerEmail: "customer@example.com", orderNumber: "ORD-1" },
+      },
+      storeUrl,
+    );
+
+    expect(email.html).not.toMatch(/zamówienia<\/p>/i);
+    expect(email.html).not.toContain("text-transform: uppercase");
+    expect(email.html).toContain("Pozdrawiamy,<br>Zespół Tylko Outlet");
+    expect(email.text).toMatch(/Pozdrawiamy,\nZespół Tylko Outlet$/);
+  });
+
   it("escapes order id in link", () => {
     const email = renderOrderCreatedEmail(
       {
@@ -109,7 +148,9 @@ describe("renderOrderCreatedEmail", () => {
       storeUrl,
     );
 
-    expect(email.subject).toBe("Order 082ad4d9-bd3e-4244-86be-23b518d2ffb6 confirmed");
+    expect(email.subject).toBe(
+      "Zamówienie 082ad4d9-bd3e-4244-86be-23b518d2ffb6 zostało potwierdzone",
+    );
     expect(email.html).toContain("082ad4d9-bd3e-4244-86be-23b518d2ffb6");
     expect(email.text).toContain("082ad4d9-bd3e-4244-86be-23b518d2ffb6");
   });

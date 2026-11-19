@@ -42,7 +42,7 @@ describe("handleQueue", () => {
       expect.objectContaining({
         to: "customer@example.com",
         from: "orders@example.com",
-        subject: "Order ORD-1 confirmed",
+        subject: "Zamówienie ORD-1 zostało potwierdzone",
       }),
     ]);
     await expect(env.EMAIL_DEDUPE.get("sent:message-id")).resolves.not.toBeNull();
